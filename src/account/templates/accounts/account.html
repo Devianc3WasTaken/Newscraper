@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .form-signin {
+      width: 100%;
+      max-width: 330px;
+      padding: 15px;
+      margin: auto;
+    }
+
+    .form-signin .form-control {
+      position: relative;
+      box-sizing: border-box;
+      height: auto;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+
+    .form-signin input[type="username"] {
+      margin-bottom: 10px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      height:200px;
+
+    }
+        .h3{
+    text-align: center;
+    }
+</style>
+
+<form class="form-signin" method="POST">{% csrf_token %}
+
+  <h1 class="h3 mb-3 font-weight-normal">Account Settings</h1>
+
+  <label for="username" class="sr-only">Username</label>
+  <input type="text"   name="username" id="username" class="form-control" placeholder="Username"   value="{{account_form.initial.username}}">
+
+
+
+  <div class="form-group">
+    <label for="sources">Sources</label>
+    <textarea class="form-control" id="sources" rows="3" value=" {{account_form.initial.sources}} "></textarea>
+  </div>
+
+   <div class="form-group">
+    <label for="categories">Example textarea</label>
+    <textarea class="form-control" id="categories" rows="3" value="{{ account_form.initial.categories}} "> </textarea>
+  </div>
+
+
+
+
+
+    {% for field in account_form %}
+        <p>
+            {% for error in field.errors %}
+                <p sttle="color:red"> {{ error }}</p>
+            {% endfor %}
+        </p>
+    {% endfor %}
+    {% if account_form.non_field_errors %}
+        <div style="color:red;">
+                <p>{{account_form.non_field_errors}}</p>
+        </div>
+    {% endif %}
+
+	{% if success_message %}
+	 <p style = "color: green; text-align:center;">{{success_message}}</p>
+	{% endif %}
+
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Save Changes</button>
+
+</form>
+
+
+
+{% endblock content %}
+
