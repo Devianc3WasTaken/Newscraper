@@ -2,27 +2,136 @@
 
 {% block content %}
 
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-  <h1 class="display-4">Coronavirus information: How to stay safe</h1>
-  <p class="lead">How do I protect myself? <br>
-  Wash hands for about 20 seconds with soap and hot water or user a sanitiser gel.
-  <br>
-  Use a tissue for coughs and sneezes
-      and avoid touching your eyes, nose and mouth with unwashed hands. <br>
-      Avoid close contact with people who are unwell
-      If you think you might have the virus, <br> Ring 111 if you are in the UK, do NOT go to a GP surgery, pharmacy or hospital
-  </p>
-    <a href="https://www.bbc.co.uk/news/health-51711227" target="_blank" >Article Link</a>
-    <a href="#" target="_blank" >Add to Favourite</a>
-    <br>
-    <!-- LinkedIn and FB buttons -->
-    <div class="fb-share-button" data-href="https://www.bbc.co.uk/news/health-51711227" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.bbc.co.uk%2Fnews%2Fhealth-51711227&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
-    <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
-    <script type="IN/Share" data-url="https://www.bbc.co.uk/news/health-51711227"></script>
+<!--<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">-->
+<!--  <h1 class="display-4">Coronavirus information: How to stay safe</h1>-->
+<!--  <p class="lead">How do I protect myself? <br>-->
+<!--  Wash hands for about 20 seconds with soap and hot water or user a sanitiser gel.-->
+<!--  <br>-->
+<!--  Use a tissue for coughs and sneezes-->
+<!--      and avoid touching your eyes, nose and mouth with unwashed hands. <br>-->
+<!--      Avoid close contact with people who are unwell-->
+<!--      If you think you might have the virus, <br> Ring 111 if you are in the UK, do NOT go to a GP surgery, pharmacy or hospital-->
+<!--  </p>-->
+<!--    <a href="https://www.bbc.co.uk/news/health-51711227" target="_blank" >Article Link</a>-->
+<!--    <a href="#" target="_blank" >Add to Favourite</a>-->
+<!--    <br>-->
+<!--    &lt;!&ndash; LinkedIn and FB buttons &ndash;&gt;-->
+<!--    <div class="fb-share-button" data-href="https://www.bbc.co.uk/news/health-51711227" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.bbc.co.uk%2Fnews%2Fhealth-51711227&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>-->
+<!--    <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>-->
+<!--    <script type="IN/Share" data-url="https://www.bbc.co.uk/news/health-51711227"></script>-->
+<!--    </div>-->
+<!--</div>-->
+ <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+
+      <!-- Newsfeed Column - Center-->
+      <div class="col-md-8">
+        {% if request.user.is_authenticated %}
+        <h3 class="my-4">Hello {{request.user.username}}, your news for today:</h3>
+        {% else %}
+        <h3 class="my-4">Hello, the news for today:</h3>
+        {% endif %}
+        <!-- Blog Post -->
+        <div class="card mb-4">
+          <img class="card-img-top" src="https://ichef.bbci.co.uk/news/660/cpsprodpb/110EC/production/_111686896_hi060969971.jpg" alt="Card image cap">
+          <div class="card-body">
+            <h2 class="card-title">Coronavirus: UK cases 'could be moving in the right direction'</h2>
+            <p class="card-text">The UK's chief scientific adviser says the curve of the epidemic may be starting to flatten.
+            The number of coronavirus cases in the UK "could be moving in the right direction", the government's chief scientific adviser has said.
+            </p>
+            <a href="https://www.bbc.co.uk/news/uk-52206510"  target="_blank" class="btn btn-primary">Read More &rarr;</a>
+          </div>
+          <div class="card-footer text-muted">
+            Posted on April 7, 2017 by
+            <a href="https://www.bbc.co.uk">BBC News UK</a>
+              Category: Coronavirus pandemic
+          </div>
+        </div>
+        <!-- Blog Post -->
+        <div class="card mb-4">
+          <img class="card-img-top" src="https://ichef.bbci.co.uk/news/320/cpsprodpb/3DFC/production/_111686851_gettyimages-1208728765.jpg" alt="Card image cap">
+          <div class="card-body">
+            <h2 class="card-title">Coronavirus: New York reports highest single-day virus death toll</h2>
+            <p class="card-text">Governor Cuomo reports rising deaths as the state faces questions over a Rikers prison death.
+             Scrutiny over New York's Covid-19 response has deepened after Governor Andrew Cuomo announced that the state
+                recorded its highest single-day increase in virus deaths on Tuesday.
+            </p>
+            <a href="https://www.bbc.co.uk/news/world-us-canada-52205118" target="_blank" class="btn btn-primary">Read More &rarr;</a>
+          </div>
+          <div class="card-footer text-muted">
+            Posted on April 7, 2017 by
+            <a href="https://www.bbc.co.uk">BBC News UK</a>
+              Category: Coronavirus pandemic
+          </div>
+        </div>
+        <!-- Blog Post -->
+        <div class="card mb-4">
+          <img class="card-img-top" src="https://ichef.bbci.co.uk/images/ic/768x432/p088w8zm.jpg" alt="Card image cap">
+          <div class="card-body">
+            <h2 class="card-title">Apps to help you stay social during lockdown</h2>
+            <p class="card-text">
+                BBC Click's Chris Fox looks at how you can use technology to keep a social life while stuck at home.
+                Having a social life while having to stay indoors could be a challenge.
+            </p>
+            <a href="#" target="_blank" class="btn btn-primary">Read More &rarr;</a>
+          </div>
+          <div class="card-footer text-muted">
+            Posted on April 7, 2017 by
+            <a href="https://www.bbc.co.uk">BBC News UK</a>
+              Category: Coronavirus pandemic, Technology
+          </div>
+        </div>
+
+      </div>
+      <!--  END Newsfeed Column - Center-->
+
+      <!-- Sidebar Widgets Column -->
+
+      <div class="col-md-4">
+        <div style="position:fixed;">
+        <!-- Google Search Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">Search</h5>
+          <div class="card-body">
+             <script async src="https://cse.google.com/cse.js?cx=006123870317195605680:n8md2sdooq7"></script>
+              <div class="gcse-search"></div>
+          </div>
+        </div>
+        <!-- END Google Search Widget  -->
+        <div class="card my-4">
+          <h5 class="card-header">Weather Forecast</h5>
+          <div class="card-body">
+          <!-- weather widget start -->
+              <a class="weatherwidget-io" href="https://forecast7.com/en/51d51n0d13/london/" data-label_1="LONDON" data-suncolor="#f2b800" data-mooncolor="#ffd300" data-cloudfill="#bcb8b8" data-raincolor="#69bdf7" >
+                  LONDON
+              </a>
+              <script>
+                !function(d,s,id){
+                    var js,fjs=d.getElementsByTagName(s)[0];
+                    if(!d.getElementById(id)){
+                        js=d.createElement(s);
+                        js.id=id;
+                        js.src='https://weatherwidget.io/js/widget.min.js';
+                        fjs.parentNode.insertBefore(js,fjs);
+                    }
+                 }
+                 (document,'script','weatherwidget-io-js');
+              </script>
+          <!-- weather widget start -->
+            <!-- https://weatherwidget.io/-->
+          </div>
+            </div>
+        </div>
+
+      </div>
+      <!-- END Side Widget -->
     </div>
-</div>
+  </div>
 
 
 
 
 {% endblock content %}
+ <!-- Page Content -->
