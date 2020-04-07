@@ -28,7 +28,7 @@
 
 <!--</div>-->
 
-    <!--Navbar -->
+<!--Navbar START -->
 <nav class="site-header sticky-top py-1">
   <div class="container d-flex flex-column flex-md-row justify-content-between">
     <a class="py-2"  href="{% url 'home' %}" aria-label="Product">
@@ -40,16 +40,20 @@
     {% if request.user.is_authenticated %}
     <a class="py-2 d-none d-md-inline-block" href="{% url 'home' %}">Home</a>
     <a class="py-2 d-none d-md-inline-block" href="{% url 'account' %}">Settings</a>
-    <a class="btn btn-outline-primary" href="{% url 'logout' %}">Logout</a>
+
+    <a class="btn btn-outline-primary" style="border-color: #262626;" href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+
+
 
 
     {% else %}
     <a class="py-2 d-none d-md-inline-block" href="{% url 'home' %}">Home</a>
     <a class="py-2 d-none d-md-inline-block" href="{% url 'login' %}">Login</a>
     <a class="py-2 d-none d-md-inline-block" href="{% url 'register' %}">Register</a>
+
     {% endif %}
 
 
   </div>
 </nav>
-<!-- HEADER END-->
+<!-- Navbar END-->
