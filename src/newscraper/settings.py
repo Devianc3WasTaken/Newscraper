@@ -78,6 +78,7 @@ TEMPLATES = [
     },
 ]
 
+# Overwrites the default authentication model and instead is using the custom one that we have build
 AUTH_USER_MODEL = 'account.Account'
 
 WSGI_APPLICATION = 'newscraper.wsgi.application'

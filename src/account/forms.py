@@ -4,19 +4,24 @@ from django.contrib.auth import authenticate
 
 from account.models import Account
 
+
 class RegistrationForm(UserCreationForm):
 
-    sources = forms.CharField(required=False,widget=forms.Textarea(attrs={"placeholder": "Separate your URL's with comma: <url> , <url>",
-                                                                                    "class": "new=class-bane two",
-                                                                                     "rows": 10,
-                                                                                    "cols": 60,
-                                                                                    "id": "my-id-for-textarea",
-                                                                                  }))
-    categories = forms.CharField(max_length=300, required=False, widget=forms.Textarea(attrs={"placeholder": "Separate categories with comma: <keyword> , <keyword>"}))
+    guardianSource = forms.BooleanField(widget=forms.CheckboxInput(attrs={'id':'guardianSource'}),required=False)
+    bbcSource = forms.BooleanField(required=False)
+    independentSource = forms.BooleanField(required=False)
 
+    categoryCoronaVirus = forms.BooleanField(required=False)
+    categoryPolitics = forms.BooleanField(required=False)
+    categorySport = forms.BooleanField(required=False)
+
+    #Telling the registration form what kind of data we are going to be modelling/ what the form needs to look like
     class Meta:
         model = Account
-        fields = ("username", "password1", "password2", "sources", "categories")
+        fields = ("username", "password1", "password2", "guardianSource", "bbcSource", "independentSource", "categoryCoronaVirus", "categoryPolitics", "categorySport")
+
+
+#
 
 
 class AccountAuthenticationForm(forms.ModelForm):
@@ -34,21 +39,16 @@ class AccountAuthenticationForm(forms.ModelForm):
             if not authenticate(username=username, password=password):
                 raise forms.ValidationError("Invalid Login!")
 
+
+
+
+
 class AccountUpdateForm(forms.ModelForm):
 
-    sources = forms.CharField(required=False, widget=forms.Textarea(
-        attrs={"placeholder": "Separate your URL's with comma: <url> , <url>",
-               "class": "new=class-bane two",
-               "rows": 10,
-               "cols": 60,
-               "id": "my-id-for-textarea",
-               }))
-    categories = forms.CharField(max_length=300, required=False, widget=forms.Textarea(
-        attrs={"placeholder": "Separate categories with comma: <keyword> , <keyword>"}))
 
     class Meta:
         model = Account
-        fields = ('username', 'sources', 'categories')
+        fields = ('username', "guardianSource", "bbcSource", "independentSource", "categoryCoronaVirus", "categoryPolitics", "categorySport")
 
     # Check if the username user tries to change to it is not already in use
     def clean_username(self):
@@ -58,4 +58,4 @@ class AccountUpdateForm(forms.ModelForm):
                 account = Account.objects.exclude(pk=self.instance.pk).get(username=username)
             except Account.DoesNotExist:
                 return username
-            raise forms.ValidationError('Username "%s" is already in use!' % username )
+            raise forms.ValidationError('Username "%s" is already in use!' % account.username )

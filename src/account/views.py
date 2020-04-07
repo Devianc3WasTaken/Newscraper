@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from account.forms import RegistrationForm, AccountAuthenticationForm, AccountUpdateForm
+from account.forms import RegistrationForm,  AccountAuthenticationForm, AccountUpdateForm
 from account.models import Account
 
 def registration(request):
     context = {}
+
+    if request.user.is_authenticated: # If user is logged in, redirect to home screen, they cannot register again!
+        return redirect('home')
     if request.POST:
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -16,10 +19,12 @@ def registration(request):
             return redirect('home')
         else:
             context['registration_form'] = form
-    else:
+    else: # GET request
         form = RegistrationForm()
         context['registration_form'] = form
     return render(request, 'accounts/register.html', context)
+
+
 
 
 
@@ -62,18 +67,19 @@ def account_view(request):
     if request.POST:
         form = AccountUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
-            form.initial = {
-                "username:": request.POST['username'],
-                "sources": request.POST.get('sources', False),
-                "categories": request.POST.get('categories', True),
-            }
             form.save()
-            context['success_message']= "Updated"
-    else:
-        form = AccountUpdateForm(initial = {
-                                            'username':request.user.username,
-                                            'sources': request.user.sources,
-                                            'categories': request.user.categories
+            context['success_message'] = "Updated"
+    else: # Display the saved user details from database
+        form = AccountUpdateForm(
+                                initial = {
+                                'username':request.user.username,
+                                "guardianSource": request.user.guardianSource,
+                                "bbcSource": request.user.bbcSource,
+                                "independentSource": request.user.independentSource,
+
+                                "categoryCoronaVirus": request.user.categoryCoronaVirus,
+                                "categoryPolitics": request.user.categoryPolitics,
+                                "categorySport": request.user.categorySport,
                                             })
     context['account_form'] = form
     return render(request, 'accounts/account.html', context)
