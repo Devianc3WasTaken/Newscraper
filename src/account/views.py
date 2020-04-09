@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from account.forms import RegistrationForm,  AccountAuthenticationForm, AccountUpdateForm
 from account.models import Account
+from account.scraper import Scraper
 
 def registration(request):
     context = {}
@@ -24,14 +25,23 @@ def registration(request):
         context['registration_form'] = form
     return render(request, 'accounts/register.html', context)
 
-
-
-
-
+### HOME VIEW ###
 def home(request):
     context = {}
     accounts = Account.objects.all()
     context['accounts'] = accounts
+
+    scraper = Scraper("https://www.theguardian.com/politics", "Coronavirus")
+
+    # To do : Scrape the bloody articles!
+
+    # checkRecent can take a "force-yes" parameter to enforce the scraper to always scrape
+    # if scraper.checkRecent("force-yes"):
+    if scraper.checkRecent():
+        print("Scrape has been recent")
+    else:
+        #scraper.search()
+        print("Scrape has not been recent")
 
     return render(request, 'home.html', context)
 

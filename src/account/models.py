@@ -63,3 +63,11 @@ class Account(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return True
+
+
+class ScraperData(models.Model):
+    name = models.CharField(max_length=30, default="lastScraped")
+    lastScraped = models.DateTimeField(verbose_name="last scraped")
+
+    def __str__(self):
+        return "lastScraped"
