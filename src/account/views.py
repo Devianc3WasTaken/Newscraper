@@ -2,7 +2,47 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from account.forms import RegistrationForm,  AccountAuthenticationForm, AccountUpdateForm
 from account.models import Account
-from account.scraper import Scraper
+from account.scraper import Scraper, Source
+
+theGuardian = Source(
+    "The Guardian",
+    "https://www.theguardian.com",
+    ("div", "fc-item__container"),
+    ("span", "js-headline-text"),
+    ("div", "fc-item__standfirst"),
+    ("a", "fc-item__link"),
+    ("something", "something")
+)
+
+bbc = Source(
+    "BBC",
+    "https://www.bbc.co.uk/news",
+    ("div", "gs-c-promo gs-t-News nw-c-promo gs-o-faux-block-link gs-u-pb gs-u-pb+@m nw-p-default gs-c-promo--inline gs-c-promo--stacked@m gs-c-promo--flex"),
+    ("h3", "gs-c-promo-heading__title gel-pica-bold nw-o-link-split__text"),
+    ("p", "gs-c-promo-summary gel-long-primer gs-u-mt nw-c-promo-summary gs-u-display-none gs-u-display-block@m"),
+    ("a", "gs-c-promo-heading gs-o-faux-block-link__overlay-link gel-pica-bold nw-o-link-split__anchor"),
+    ("div", "gs-o-responsive-image gs-o-responsive-image--16by9")
+)
+
+theIndependent = Source(
+    "The Independent",
+    "https://www.independent.co.uk",
+    ("div", "article type-article media-image"),
+    ("h2", ""),
+    ("", ""),
+    ("a", ""),
+    ("amp-img", "amp-img img-focal-center i-amphtml-layout-responsive i-amphtml-layout-size-defined i-amphtml-element i-amphtml-layout")
+)
+
+sources = []
+sources.append(theGuardian)
+sources.append(bbc)
+#sources.append(theIndependent)
+
+categories = []
+categories.append("politics")
+categories.append("sport")
+#categories.append("coronavirus")
 
 def registration(request):
     context = {}
@@ -31,17 +71,15 @@ def home(request):
     accounts = Account.objects.all()
     context['accounts'] = accounts
 
-    scraper = Scraper("https://www.theguardian.com/politics", "Coronavirus")
-
-    # To do : Scrape the bloody articles!
+    scraper = Scraper(sources, categories)
 
     # checkRecent can take a "force-yes" parameter to enforce the scraper to always scrape
     # if scraper.checkRecent("force-yes"):
     if scraper.checkRecent():
         print("Scrape has been recent")
     else:
-        #scraper.search()
         print("Scrape has not been recent")
+        scraper.search()
 
     return render(request, 'home.html', context)
 
