@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 from account.models import ScraperData
+from article.models import Article
 
 ### PLACEHOLDER CLASSES FOR SOURCE. WILL FIX AFTER SCRAPER CONFIRMED TO BE WORKING PROPERLY ###
 class Source:
@@ -26,6 +27,9 @@ class Source:
         self.linkClass = link
         self.imageClass = image
 
+    def __str__(self):
+        return self.name
+
 class Scraper:
     def __init__(self, s, c):
         self.driver = None
@@ -37,12 +41,14 @@ class Scraper:
         # --headless does not visibly display a window
         chromeOptions = Options()
         chromeOptions.add_argument("--headless")
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome(options=chromeOptions)
 
     # search() performs a request for the target url and creates a GeneratedArticle(t, s, b, src) object
     def search(self):
         if (self.driver == None):
             self.start()
+
+        Article.objects.all().delete()
 
         # For every source...
         for i in range(len(self.sources)):
@@ -65,6 +71,7 @@ class Scraper:
                 sourceHeadline = self.sources[i].headlineClass
                 sourceText = self.sources[i].textClass
                 sourceLink = self.sources[i].linkClass
+                sourceImage = self.sources[i].imageClass
 
                 containerAmount = 2
 
@@ -78,10 +85,17 @@ class Scraper:
                         headline = container.find(sourceHeadline[0], {"class": sourceHeadline[1]}).text
                         text = container.find(sourceText[0], {"class" : sourceText[1]}).text
                         link = container.find(sourceLink[0], {"class" : sourceLink[1]})['href']
+                        image = container.find(sourceImage[0])[sourceImage[1]]
+
+                        if self.sources[i].name == "BBC":
+                            link = "https://www.bbc.co.uk" + link
 
                         print("\n\nHeadline: " + headline)
                         print("Text: " + text)
                         print("Source: " + link + "\n\n\n")
+                        print("Image : " + image)
+
+                        self.exportArticlesToDB(headline, text, link, image, self.categories[j], self.sources[i], False, datetime.now(timezone.utc))
 
                     except AttributeError:
                         continue
@@ -114,11 +128,28 @@ class Scraper:
             print("diff in mins: " + str(diffInMins))
 
             if (diffInMins > 30):
+                print("Scrape has not been recent")
                 return False
             else:
+                print("Scrape has been recent")
                 return True
-        elif force == "force-yes":
-            return True
+        elif force == "force-scrape":
+            return False
+
+    # @params headline, body, url, image, category, source, favourite, date
+    def exportArticlesToDB(self, h, b, u, i, c, s, f, d):
+        articleInstance = Article()
+
+        articleInstance.headline = h
+        articleInstance.body = b
+        articleInstance.url = u
+        articleInstance.image = i
+        articleInstance.category = c
+        articleInstance.source = s
+        articleInstance.favourite = f
+        articleInstance.date = d
+
+        articleInstance.save()
 
     def getScrapeTime(self):
         last = ScraperData.objects.get(name="lastScraped")

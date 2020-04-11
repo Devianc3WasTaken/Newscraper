@@ -11,7 +11,7 @@ theGuardian = Source(
     ("span", "js-headline-text"),
     ("div", "fc-item__standfirst"),
     ("a", "fc-item__link"),
-    ("something", "something")
+    ("source", "srcset")
 )
 
 bbc = Source(
@@ -21,7 +21,7 @@ bbc = Source(
     ("h3", "gs-c-promo-heading__title gel-pica-bold nw-o-link-split__text"),
     ("p", "gs-c-promo-summary gel-long-primer gs-u-mt nw-c-promo-summary gs-u-display-none gs-u-display-block@m"),
     ("a", "gs-c-promo-heading gs-o-faux-block-link__overlay-link gel-pica-bold nw-o-link-split__anchor"),
-    ("div", "gs-o-responsive-image gs-o-responsive-image--16by9")
+    ("img", "src")
 )
 
 theIndependent = Source(
@@ -73,12 +73,11 @@ def home(request):
 
     scraper = Scraper(sources, categories)
 
-    # checkRecent can take a "force-yes" parameter to enforce the scraper to always scrape
-    # if scraper.checkRecent("force-yes"):
-    if scraper.checkRecent():
-        print("Scrape has been recent")
+    # checkRecent can take a "force-scrape" parameter to enforce the scraper to always scrape
+    # if scraper.checkRecent("force-scrape"):
+    if scraper.checkRecent("force-scrape"):
+        print("Force Scraping")
     else:
-        print("Scrape has not been recent")
         scraper.search()
 
     return render(request, 'home.html', context)
