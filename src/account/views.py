@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from account.forms import RegistrationForm,  AccountAuthenticationForm, AccountUpdateForm
 from account.models import Account
 from account.scraper import Scraper, Source
-
+from article.models import Article
 theGuardian = Source(
     "The Guardian",
     "https://www.theguardian.com",
@@ -68,9 +68,23 @@ def registration(request):
 ### HOME VIEW ###
 def home(request):
     context = {}
-    accounts = Account.objects.all()
-    context['accounts'] = accounts
+    accounts = Account.objects.filter(username=request.user).first()
 
+    source_selection = []
+    if request.user.guardianSource: source_selection.append('The Guardian')
+    if request.user.bbcSource: source_selection.append("BBC")
+    if request.user.independentSource: source_selection.append('The Independent')
+
+    categories_selection = []
+    if request.user.categoryCoronaVirus: categories_selection.append('coronavirus')
+    if request.user.categoryPolitics: categories_selection.append('politics')
+    if request.user.categorySport: categories_selection.append('sport')
+
+    articles = Article.objects.filter(source__in=source_selection, category__in=categories_selection)
+    context['accounts'] = accounts
+    context['articles'] = articles
+
+    # Scrape
     scraper = Scraper(sources, categories)
 
     # checkRecent can take a "force-scrape" parameter to enforce the scraper to always scrape

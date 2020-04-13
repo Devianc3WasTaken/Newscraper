@@ -31,13 +31,15 @@ class Account(AbstractBaseUser):
 
     username = models.CharField(max_length=30, unique=True)
 
-    guardianSource = models.BooleanField(default=True)
-    bbcSource = models.BooleanField(default=False)
-    independentSource = models.BooleanField(default=False)
+    guardianSource = models.BooleanField(verbose_name='The Guardian',default=True)
+    bbcSource = models.BooleanField(verbose_name="BBC", default=False)
+    independentSource = models.BooleanField(verbose_name="The Independent", default=False)
 
-    categoryCoronaVirus = models.BooleanField(default=False)
-    categoryPolitics = models.BooleanField(default=False)
-    categorySport = models.BooleanField(default=False)
+
+    categoryCoronaVirus = models.BooleanField(verbose_name="Coronavirus", default=False)
+    categoryPolitics = models.BooleanField(verbose_name="politics", default=False)
+    categorySport = models.BooleanField(verbose_name="sport", default=False)
+
 
     # The fields bellow are REQUIRED for AbstractBaseUser class (for custom user model)
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
@@ -63,6 +65,7 @@ class Account(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return True
+
 
 
 class ScraperData(models.Model):

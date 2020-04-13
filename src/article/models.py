@@ -17,6 +17,8 @@ class Article(models.Model):
     favourite = models.BooleanField(default=False)
     date = models.DateTimeField()
 
+
+
     def __str__(self):
         return self.headline
     # OR THIS

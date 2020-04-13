@@ -85,7 +85,7 @@ class Scraper:
                         headline = container.find(sourceHeadline[0], {"class": sourceHeadline[1]}).text
                         text = container.find(sourceText[0], {"class" : sourceText[1]}).text
                         link = container.find(sourceLink[0], {"class" : sourceLink[1]})['href']
-                        image = container.find(sourceImage[0])[sourceImage[1]]
+                        # image = container.find(sourceImage[0])[sourceImage[1]]
 
                         if self.sources[i].name == "BBC":
                             link = "https://www.bbc.co.uk" + link
@@ -93,9 +93,10 @@ class Scraper:
                         print("\n\nHeadline: " + headline)
                         print("Text: " + text)
                         print("Source: " + link + "\n\n\n")
-                        print("Image : " + image)
+                        # print("Image : " + image)
 
-                        self.exportArticlesToDB(headline, text, link, image, self.categories[j], self.sources[i], False, datetime.now(timezone.utc))
+                        # Image needs to be fixed
+                        self.exportArticlesToDB(headline, text, link, "https://dazedimg-dazedgroup.netdna-ssl.com/495/azure/dazed-prod/1210/0/1210368.jpg",  self.categories[j], self.sources[i], False, datetime.now(timezone.utc))
 
                     except AttributeError:
                         continue
@@ -148,6 +149,8 @@ class Scraper:
         articleInstance.source = s
         articleInstance.favourite = f
         articleInstance.date = d
+
+
 
         articleInstance.save()
 
