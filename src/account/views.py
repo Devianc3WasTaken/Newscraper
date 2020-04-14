@@ -68,20 +68,26 @@ def registration(request):
 ### HOME VIEW ###
 def home(request):
     context = {}
-    accounts = Account.objects.filter(username=request.user).first()
-
     source_selection = []
-    if request.user.guardianSource: source_selection.append('The Guardian')
-    if request.user.bbcSource: source_selection.append("BBC")
-    if request.user.independentSource: source_selection.append('The Independent')
-
     categories_selection = []
-    if request.user.categoryCoronaVirus: categories_selection.append('coronavirus')
-    if request.user.categoryPolitics: categories_selection.append('politics')
-    if request.user.categorySport: categories_selection.append('sport')
+    # if the user is authenticated
+    if request.user.is_authenticated:
+        accounts = Account.objects.filter(username=request.user).first()
+
+        if request.user.guardianSource: source_selection.append('The Guardian')
+        if request.user.bbcSource: source_selection.append("BBC")
+        if request.user.independentSource: source_selection.append('The Independent')
+
+        if request.user.categoryCoronaVirus: categories_selection.append('coronavirus')
+        if request.user.categoryPolitics: categories_selection.append('politics')
+        if request.user.categorySport: categories_selection.append('sport')
+        context['accounts'] = accounts
+    else: # if the user uses the website as a guest
+        source_selection.append("BBC")
+        categories_selection.append("politics")
 
     articles = Article.objects.filter(source__in=source_selection, category__in=categories_selection)
-    context['accounts'] = accounts
+
     context['articles'] = articles
 
     # Scrape

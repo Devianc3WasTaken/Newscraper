@@ -34,7 +34,9 @@
                 <h5 class="card my-4 text-center card-header">Hello {{request.user.username}}, your news for today:</h5>
 
           {% else %}
-            <h3 class="my-4 text-center">Hello, the news for today:</h3>
+            <h5 class="card my-4 text-center card-header">Hello guest, welcome to Newscraper.<br>
+                <div class="text-muted">Currrently, the only category and source are: politics and BBC. If you want to add more
+                    categories and sources, please, <b>register</b> or <b>login!</b></div></h5>
           {% endif %}
 
           {% for article in articles %}
