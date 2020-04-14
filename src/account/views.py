@@ -93,11 +93,11 @@ def home(request):
     context['articles'] = articles
 
 
-    # Scrape
+    # # Scrape
     scraper = Scraper(sources, categories)
-
-    # checkRecent can take a "force-scrape" parameter to enforce the scraper to always scrape
-    # if scraper.checkRecent("force-scrape"):
+    #
+    # # checkRecent can take a "force-scrape" parameter to enforce the scraper to always scrape
+    # # if scraper.checkRecent("force-scrape"):
     if scraper.checkRecent("force-scrape"):
         print("Force Scraping")
     else:
