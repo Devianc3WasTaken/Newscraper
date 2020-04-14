@@ -92,7 +92,7 @@ def home(request):
 
     context['articles'] = articles
 
-
+    return render(request, 'home.html', context)
     # # Scrape
     scraper = Scraper(sources, categories)
     #
@@ -103,7 +103,7 @@ def home(request):
     else:
         scraper.search()
 
-    return render(request, 'home.html', context)
+    # return render(request, 'home.html', context)
 
 def logout_view(request):
     logout(request)
