@@ -54,6 +54,7 @@
     <label>Sport</label> {{account_form.categorySport}}
   </div>
 
+    <!-- loop through the fields of the registration form -->
     {% for field in registration_form %}
         <p>
             {% for error in field.errors %}
@@ -67,7 +68,7 @@
                 <p>{{registration_form.non_field_errors}}</p>
         </div>
     {% endif %}
-
+    <!-- loop through the fields of the account form -->
     {% for field in account_form %}
         <p>
             {% for error in field.errors %}
@@ -82,9 +83,10 @@
         </div>
     {% endif %}
 
+    <!-- If there is at least 1 source and 1 category display normal "note" message -->
     {% if account_form.guardianSource.value == True or account_form.bbcSource == True or account_form.independentSource == True and account_form.categoryCoronaVirus == True or account_form.categoryPolitics == True or account_form.categorySport == True %}
         <h6 class="text-muted">NOTE: You <b>MUST</b> select at least 1 source and 1 category!!!</h6>
-    {% else %}
+    {% else %} <!-- If  user has not provided any source and categories display a warning message -->
     <div  id="error_message">
         <div class="alert alert-danger card-header text-center flashit">
             <strong>Warning!</strong> No source and category selected!<br>
@@ -98,16 +100,11 @@
     </div><br>
     <button class="btn btn-lg btn-primary btn-block" type="submit">Save Changes</button>
 
-
+    <!-- If there were not errors display successful message -->
 	{% if success_message %}
         <p style = "color: green; text-align:center;">{{success_message}}</p>
     {% endif %}
 
-
-
-
 </form>
-
-
 
 {% endblock content %}

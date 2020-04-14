@@ -82,10 +82,12 @@ def home(request):
         if request.user.categoryPolitics: categories_selection.append('politics')
         if request.user.categorySport: categories_selection.append('sport')
         context['accounts'] = accounts
-    else: # if the user uses the website as a guest
+    else: # if the user uses the website as a guest he will only be able to see  BBC politics category news
         source_selection.append("BBC")
         categories_selection.append("politics")
 
+    # Extract the articles from the DB based on the filter provided
+    # (user (if user - filter based on user selected sources and categories) or guess (if guess- predefined sources and categories))
     articles = Article.objects.filter(source__in=source_selection, category__in=categories_selection)
 
     context['articles'] = articles
@@ -110,11 +112,12 @@ def logout_view(request):
 def login_view(request):
     context = {}
     user = request.user
+    # if user is logged in and tries to type /login it will redirect him to home
     if user.is_authenticated:
         return redirect('home')
-
+    # else
     if request.POST:
-        form = AccountAuthenticationForm(request.POST)
+        form = AccountAuthenticationForm(request.POST) # get the authentication form and store it in form
         if form.is_valid():
             username = request.POST['username']
             password = request.POST['password']
@@ -129,14 +132,16 @@ def login_view(request):
     return render(request, 'accounts/login.html', context)
 
 def account_view(request):
+    # If a guest uses the website and tryies to type /account it will redirect him to home page
     if not request.user.is_authenticated:
         return redirect('login')
+    # if a register uses tries to access the /account page:
     context = {}
     if request.POST:
-        form = AccountUpdateForm(request.POST, instance=request.user)
-        if form.is_valid():
+        form = AccountUpdateForm(request.POST, instance=request.user) # request the form of the specific instance user
+        if form.is_valid(): # if the form is valid (all values are entered correctly) save the form
             form.save()
-            context['success_message'] = "Updated"
+            context['success_message'] = "Updated" # This is the message to print on success
     else: # Display the saved user details from database
         form = AccountUpdateForm(
                                 initial = {
