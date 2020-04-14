@@ -36,40 +36,22 @@
 </style>
 
 <form class="form-signin" method="POST">{% csrf_token %}
-
   <h1 class="h3 mb-3 font-weight-normal">Account Settings</h1>
-
   <label for="username" class="sr-only">Username</label>
-  <input type="text"   name="username" id="username" class="form-control" placeholder="Username"   value="{{account_form.initial.username}}" required>
-    <br>
-   <div  class="form-control">
-      <p><b>Please choose news sources!</b></p>
+  <input type="text"   name="username" id="username" class="form-control" placeholder="Username"   value="{{account_form.initial.username}}" required><br>
 
-      <label>The Guardian</label>
-      {{ account_form.guardianSource }}
-    <br>
-      <label>BBC News</label>
-       {{account_form.bbcSource}}
-    <br>
-      <label>The Independent</label>
-      {{account_form.independentSource}}
+  <div  class="form-control">
+    <p><b>Please choose news sources!</b></p>
+    <label>The Guardian</label> {{ account_form.guardianSource }}<br>
+    <label>BBC News</label> {{account_form.bbcSource}}<br>
+    <label>The Independent</label> {{account_form.independentSource}}
   </div>
     <br>
-    <div  class="form-control">
-      <p><b>Please choose news category!</b></p>
-
-      <label>Coronavirus</label>
-      {{account_form.categoryCoronaVirus}}
-
-    <br>
-
-      <label>Politics</label>
-      {{account_form.categoryPolitics}}
-    <br>
-
-      <label>Sport</label>
-      {{account_form.categorySport}}
-
+  <div  class="form-control">
+    <p><b>Please choose news category!</b></p>
+    <label>Coronavirus</label> {{account_form.categoryCoronaVirus}}<br>
+    <label>Politics</label> {{account_form.categoryPolitics}}<br>
+    <label>Sport</label> {{account_form.categorySport}}
   </div>
 
     {% for field in registration_form %}
@@ -79,11 +61,13 @@
             {% endfor %}
         </p>
     {% endfor %}
+
     {% if registration_form.non_field_errors %}
         <div style="color:red;">
                 <p>{{registration_form.non_field_errors}}</p>
         </div>
     {% endif %}
+
     {% for field in account_form %}
         <p>
             {% for error in field.errors %}
@@ -91,25 +75,39 @@
             {% endfor %}
         </p>
     {% endfor %}
+
     {% if account_form.non_field_errors %}
         <div style="color:red;">
-                <p>{{account_form.non_field_errors}}</p>
+            <p>{{account_form.non_field_errors}}</p>
         </div>
     {% endif %}
 
-	{% if success_message %}
-	 <p style = "color: green; text-align:center;">{{success_message}}</p>
-	{% endif %}
-    <h6 class="text-muted">
+    {% if account_form.guardianSource.value == True or account_form.bbcSource == True or account_form.independentSource == True and account_form.categoryCoronaVirus == True or account_form.categoryPolitics == True or account_form.categorySport == True %}
+        <h6 class="text-muted">NOTE: You <b>MUST</b> select at least 1 source and 1 category!!!</h6>
+    {% else %}
+    <div  id="error_message">
+        <div class="alert alert-danger card-header text-center flashit">
+            <strong>Warning!</strong> No source and category selected!<br>
+            You <b>MUST</b> select at least 1 source and 1 category!!!
+        </div>
+    </div>
 
-     NOTE: You <b>MUST</b> select at least 1 source and 1 category!!!
-  </h6>
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Save Changes</button>
+    {% endif %}
+    <div class="d-flex flex-column">
+        <a class="m-auto" href="{% url 'password_change' %}">Change password</a>
+    </div><br>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Save Changes</button>
+
+
+	{% if success_message %}
+        <p style = "color: green; text-align:center;">{{success_message}}</p>
+    {% endif %}
+
+
+
 
 </form>
-<div class="d-flex flex-column">
-  <a class="m-auto" href="{% url 'password_change' %}">Change password</a>
-</div>
+
 
 
 {% endblock content %}

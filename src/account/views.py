@@ -90,6 +90,7 @@ def home(request):
 
     context['articles'] = articles
 
+
     # Scrape
     scraper = Scraper(sources, categories)
 
