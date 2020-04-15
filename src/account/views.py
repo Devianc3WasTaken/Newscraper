@@ -35,14 +35,14 @@ theIndependent = Source(
 )
 
 sources = []
-sources.append(theGuardian)
+#sources.append(theGuardian)
 sources.append(bbc)
 #sources.append(theIndependent)
 
 categories = []
 categories.append("politics")
-categories.append("sport")
 categories.append("technology")
+categories.append("sport")
 
 def registration(request):
     context = {}

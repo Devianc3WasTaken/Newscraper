@@ -41,7 +41,7 @@ class Scraper:
         # --headless does not visibly display a window
         chromeOptions = Options()
         chromeOptions.add_argument("--headless")
-        self.driver = webdriver.Chrome(chrome_options=chromeOptions)
+        self.driver = webdriver.Chrome()
 
     # search() performs a request for the target url and creates a GeneratedArticle(t, s, b, src) object
     def search(self):
@@ -86,8 +86,8 @@ class Scraper:
                 # Find all containers of news articles, then their respective elements for title, subtitle, source, body
                 containers = soup.findAll(sourceContainer[0], {"class": sourceContainer[1]})[:containerAmount]
 
-                print("\n\n[SCRAPING FROM: " + self.sources[i].name + "] : \n\n")
-
+                print("\n\n[SCRAPING FROM: " + self.sources[i].name + "] " + self.categories[j] + " : \n\n")
+                print(len(containers))
                 for container in containers:
                     try:
                         headline = container.find(sourceHeadline[0], {"class": sourceHeadline[1]}).text
