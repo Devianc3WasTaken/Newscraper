@@ -35,7 +35,7 @@ class Account(AbstractBaseUser):
     bbcSource = models.BooleanField(default=False)
     independentSource = models.BooleanField(default=False)
 
-    categoryCoronaVirus = models.BooleanField( default=False)
+    categoryTech = models.BooleanField( default=False)
     categoryPolitics = models.BooleanField( default=False)
     categorySport = models.BooleanField( default=False)
 

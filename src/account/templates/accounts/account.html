@@ -49,7 +49,7 @@
     <br>
   <div  class="form-control">
     <p><b>Please choose news category!</b></p>
-    <label>Coronavirus</label> {{account_form.categoryCoronaVirus}}<br>
+    <label>Technology</label> {{account_form.categoryTech}}<br>
     <label>Politics</label> {{account_form.categoryPolitics}}<br>
     <label>Sport</label> {{account_form.categorySport}}
   </div>
@@ -84,8 +84,18 @@
     {% endif %}
 
     <!-- If there is at least 1 source and 1 category display normal "note" message -->
-    {% if account_form.guardianSource.value == True or account_form.bbcSource == True or account_form.independentSource == True and account_form.categoryCoronaVirus == True or account_form.categoryPolitics == True or account_form.categorySport == True %}
-        <h6 class="text-muted">NOTE: You <b>MUST</b> select at least 1 source and 1 category!!!</h6>
+    {% if account_form.guardianSource.value == True or account_form.bbcSource.value == True or account_form.independentSource.value == True  %}
+        {% if account_form.categoryTech.value == True or account_form.categoryPolitics.value == True or account_form.categorySport.value == True %}
+            <h6 class="text-muted">NOTE: You <b>MUST</b> select at least 1 source and 1 category!!!</h6>
+        {%else %}
+            <div  id="error_message">
+                <div class="alert alert-danger card-header text-center flashit">
+                    <strong>Warning!</strong> No source and category selected!<br>
+                    You <b>MUST</b> select at least 1 source and 1 category!!!
+                </div>
+            </div>
+        {% endif %}
+
     {% else %} <!-- If  user has not provided any source and categories display a warning message -->
     <div  id="error_message">
         <div class="alert alert-danger card-header text-center flashit">

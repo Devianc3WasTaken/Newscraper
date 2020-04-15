@@ -78,7 +78,7 @@ def home(request):
         if request.user.bbcSource: source_selection.append("BBC")
         if request.user.independentSource: source_selection.append('The Independent')
 
-        if request.user.categoryCoronaVirus: categories_selection.append('coronavirus')
+        if request.user.categoryTech: categories_selection.append('tech')
         if request.user.categoryPolitics: categories_selection.append('politics')
         if request.user.categorySport: categories_selection.append('sport')
         context['accounts'] = accounts
@@ -92,7 +92,7 @@ def home(request):
 
     context['articles'] = articles
 
-    # # return render(request, 'home.html', context)
+
     # # # Scrape
     # scraper = Scraper(sources, categories)
     # #
@@ -150,7 +150,7 @@ def account_view(request):
                                 "bbcSource": request.user.bbcSource,
                                 "independentSource": request.user.independentSource,
 
-                                "categoryCoronaVirus": request.user.categoryCoronaVirus,
+                                "categoryTech": request.user.categoryTech,
                                 "categoryPolitics": request.user.categoryPolitics,
                                 "categorySport": request.user.categorySport,
                                             })
