@@ -35,7 +35,7 @@ theIndependent = Source(
 )
 
 sources = []
-#sources.append(theGuardian)
+sources.append(theGuardian)
 sources.append(bbc)
 #sources.append(theIndependent)
 
@@ -78,7 +78,7 @@ def home(request):
         if request.user.bbcSource: source_selection.append("BBC")
         if request.user.independentSource: source_selection.append('The Independent')
 
-        if request.user.categoryTech: categories_selection.append('tech')
+        if request.user.categoryTech: categories_selection.append('technology')
         if request.user.categoryPolitics: categories_selection.append('politics')
         if request.user.categorySport: categories_selection.append('sport')
         context['accounts'] = accounts
