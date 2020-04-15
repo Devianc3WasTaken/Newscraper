@@ -42,8 +42,6 @@
 
   <h1 class="h3 mb-3 font-weight-normal">Register</h1>
 
-
-
   <label for="username" class="sr-only">Username</label>
   <input type="text" name="username" id="username" class="form-control" placeholder="User name" required autofocus>
 
@@ -91,11 +89,8 @@
                 <p>{{registration_form.non_field_errors}}</p>
         </div>
     {% endif %}
-  <h6 class="text-muted">
-     NOTE: You <b>MUST</b> select at least 1 choice for each!!!
-  </h6>
+  <h6 class="text-muted">NOTE: You <b>MUST</b> select at least 1 choice for each!!!</h6>
     <div  id="error_message"> </div>
-
   <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="valthisform()">Register</button>
 
 </form>

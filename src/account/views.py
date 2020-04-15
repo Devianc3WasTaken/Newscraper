@@ -92,18 +92,18 @@ def home(request):
 
     context['articles'] = articles
 
-    return render(request, 'home.html', context)
-    # # Scrape
-    scraper = Scraper(sources, categories)
-    #
-    # # checkRecent can take a "force-scrape" parameter to enforce the scraper to always scrape
-    # # if scraper.checkRecent("force-scrape"):
-    if scraper.checkRecent("force-scrape"):
-        print("Force Scraping")
-    else:
-        scraper.search()
+    # # return render(request, 'home.html', context)
+    # # # Scrape
+    # scraper = Scraper(sources, categories)
+    # #
+    # # # checkRecent can take a "force-scrape" parameter to enforce the scraper to always scrape
+    # # # if scraper.checkRecent("force-scrape"):
+    # if scraper.checkRecent("force-scrape"):
+    #     print("Force Scraping")
+    # else:
+    #     scraper.search()
 
-    # return render(request, 'home.html', context)
+    return render(request, 'home.html', context)
 
 def logout_view(request):
     logout(request)

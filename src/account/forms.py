@@ -7,15 +7,15 @@ from account.models import Account
 
 class RegistrationForm(UserCreationForm):
 
-    guardianSource = forms.BooleanField(widget=forms.CheckboxInput(attrs={'id':'guardianSource'}),required=False)
-    bbcSource = forms.BooleanField(required=False)
-    independentSource = forms.BooleanField(required=False)
-
-    categoryCoronaVirus = forms.BooleanField(required=False)
-    categoryPolitics = forms.BooleanField(required=False)
-    categorySport = forms.BooleanField(required=False)
-
-    #Telling the registration form what kind of data we are going to be modelling/ what the form needs to look like
+    # guardianSource = forms.BooleanField(widget=forms.CheckboxInput(attrs={'id':'guardianSource'}),required=False)
+    # bbcSource = forms.BooleanField(required=False)
+    # independentSource = forms.BooleanField(required=False)
+    #
+    # categoryCoronaVirus = forms.BooleanField(required=False)
+    # categoryPolitics = forms.BooleanField(required=False)
+    # categorySport = forms.BooleanField(required=False)
+    #
+    # #Telling the registration form what kind of data we are going to be modelling/ what the form needs to look like
     class Meta:
         model = Account
         fields = ("username", "password1", "password2", "guardianSource", "bbcSource", "independentSource", "categoryCoronaVirus", "categoryPolitics", "categorySport")
