@@ -41,7 +41,7 @@ class Scraper:
         # --headless does not visibly display a window
         chromeOptions = Options()
         chromeOptions.add_argument("--headless")
-        self.driver = webdriver.Chrome(options=chromeOptions)
+        self.driver = webdriver.Chrome(chrome_options=chromeOptions)
 
     # search() performs a request for the target url and creates a GeneratedArticle(t, s, b, src) object
     def search(self):
@@ -56,7 +56,15 @@ class Scraper:
             for j in range(len(self.categories)):
                 try:
                     # Perform a request for the url and store the raw page source
-                    urlRequest = self.sources[i].url + "/" + self.categories[j]
+                    if (self.sources[i].name == "BBC" and self.categories[j] == "sport"):
+                        urlRequest = "https://www.bbc.co.uk/" + self.categories[j]
+                        self.sources[i].containerClass = ("div", "gs-c-promo gs-t-sport gs-c-promo--stacked@m gs-c-promo--inline gs-o-faux-block-link gs-u-pb gs-u-pb++@m gs-c-promo--flex")
+                        self.sources[i].headlineClass = ("h3", "gs-c-promo-heading__title gel-pica-bold sp-o-link-split__text")
+                        self.sources[i].linkClass = ("a", "gs-c-promo-heading gs-o-faux-block-link__overlay-link sp-o-link-split__anchor gel-pica-bold")
+                        self.sources[i].imageClass = ("img", "srcset")
+                    else:
+                        urlRequest = self.sources[i].url + "/" + self.categories[j]
+
                     self.driver.get(urlRequest)
                     pageSource = self.driver.page_source
                 except:
@@ -83,39 +91,50 @@ class Scraper:
                 for container in containers:
                     try:
                         headline = container.find(sourceHeadline[0], {"class": sourceHeadline[1]}).text
-                        text = container.find(sourceText[0], {"class" : sourceText[1]}).text
+                        if (self.sources[i].name == "BBC" and self.categories[j] == "sport"):
+                            text = "No Text Available"
+                        else:
+                            text = container.find(sourceText[0], {"class" : sourceText[1]}).text
                         link = container.find(sourceLink[0], {"class" : sourceLink[1]})['href']
-                        # image = container.find(sourceImage[0])[sourceImage[1]]
-
-                        if self.sources[i].name == "BBC":
+                        if (self.sources[i].name == "BBC"):
                             link = "https://www.bbc.co.uk" + link
+                        image = "http://newsmobile.in/wp-content/uploads/2018/08/5ab4adb10a8d0.jpg"
 
+                        # fix
+                        #image = self.getImage(link, sourceImage, self.sources[i].name)
+
+
+                    except AttributeError as e:
+                        print(e)
+                        continue
+
+                    finally:
                         print("\n\nHeadline: " + headline)
                         print("Text: " + text)
                         print("Source: " + link + "\n\n\n")
-                        # print("Image : " + image)
-
-                        # Image needs to be fixed
-                        self.exportArticlesToDB(headline, text, link, "https://dazedimg-dazedgroup.netdna-ssl.com/495/azure/dazed-prod/1210/0/1210368.jpg",  self.categories[j], self.sources[i], False, datetime.now(timezone.utc))
-
-                    except AttributeError:
-                        continue
+                        print("Image : " + image)
+                        self.exportArticlesToDB(headline, text, link, image,  self.categories[j], self.sources[i], False, datetime.now(timezone.utc))
 
         # Save the last scrape time and quit
         self.saveScrapeTime()
         self.driver.quit()
 
-    #### Not in use currently
-    def getBody(self, url):
+    def getImage(self, url, sourceImage, name):
         self.driver.get(url)
         pageSource = self.driver.page_source
         soup = BeautifulSoup(pageSource, "html.parser")
 
-        bodySource = soup.findAll("p")
-        bodyText = ""
-        for paragraph in bodySource:
-            bodyText += paragraph.text
-        return bodyText
+        container = soup.findAll(sourceImage[0], {"class": sourceImage[1]})
+        print(container)
+        img = None
+        if (name == "The Guardian"):
+            img = container.find("img")
+            print(img)
+
+        if (img is None):
+            img = "http://newsmobile.in/wp-content/uploads/2018/08/5ab4adb10a8d0.jpg"
+
+        return img
 
     # Checks recent scrape time (the last time the scraper ran)
     def checkRecent(self, force=None):

@@ -42,7 +42,7 @@ sources.append(bbc)
 categories = []
 categories.append("politics")
 categories.append("sport")
-#categories.append("coronavirus")
+categories.append("technology")
 
 def registration(request):
     context = {}
@@ -93,15 +93,15 @@ def home(request):
     context['articles'] = articles
 
 
-    # # # Scrape
-    # scraper = Scraper(sources, categories)
-    # #
-    # # # checkRecent can take a "force-scrape" parameter to enforce the scraper to always scrape
-    # # # if scraper.checkRecent("force-scrape"):
+    # Scrape
+    scraper = Scraper(sources, categories)
+
+    # checkRecent can take a "force-scrape" parameter to enforce the scraper to always scrape
     # if scraper.checkRecent("force-scrape"):
-    #     print("Force Scraping")
-    # else:
-    #     scraper.search()
+    if scraper.checkRecent("force-scrape"):
+        print("Force Scraping")
+    else:
+        scraper.search()
 
     return render(request, 'home.html', context)
 
