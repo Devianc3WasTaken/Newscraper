@@ -41,7 +41,7 @@ class Scraper:
         # --headless does not visibly display a window
         chromeOptions = Options()
         chromeOptions.add_argument("--headless")
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome(options=chromeOptions)
 
     # search() performs a request for the target url and creates a GeneratedArticle(t, s, b, src) object
     def search(self):
